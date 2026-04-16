@@ -1,0 +1,35 @@
+# Segredos e Credenciais (CRITICO)
+.env
+auth.json
+auth.lock
+
+# Bancos de dados e estado local
+state.db
+state.db-shm
+state.db-wal
+.hermes_history
+gateway.pid
+gateway_state.json
+models_dev_cache.json
+.skills_prompt_snapshot.json
+
+# Sessões e memória dinâmica
+sessions/
+memories/
+pairing/
+
+# Caches e Mídia
+audio_cache/
+image_cache/
+logs/
+sandboxes/
+
+# Binários e Instalações Locais
+bin/
+node/
+whatsapp/
+
+# Outros
+.update_check
+hermes-agent/
+cron/
