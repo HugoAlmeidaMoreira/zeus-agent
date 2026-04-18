@@ -177,7 +177,19 @@ Hello from Himalaya!
 EOF
 ```
 
-Or with headers flag:
+**Save as Draft (Do not send)** — use `message save` and specify the drafts folder (e.g., `[Gmail]/Drafts` for Gmail):
+
+```bash
+# First, verify the drafts folder name: himalaya folder list
+cat << 'EOF' | himalaya message save --folder "[Gmail]/Drafts"
+From: you@example.com
+To: recipient@example.com
+Subject: Draft Subject
+X-Draft: true
+
+This is a draft message.
+EOF
+```
 
 ```bash
 himalaya message write -H "To:recipient@example.com" -H "Subject:Test" "Message body here"

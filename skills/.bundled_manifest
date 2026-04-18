@@ -1,6 +1,6 @@
 apple-notes:16ffca134c5590714781d8aeef51f8f3
 apple-reminders:0273a9a17f6d07c55c84735c4366186b
-architecture-diagram:1d43bd230aaf204d0ec8e0af684d3df3
+architecture-diagram:999ab6d4445dbd407a82031857aa9791
 arxiv:0ad5eb32727a1cb2bbff9e1e8e4dbff7
 ascii-art:5b776ddc3e15abda4d6c23014e3b374c
 ascii-video:93697173a0a33f7ecb7c4dc1c27f80e8
@@ -17,8 +17,7 @@ evaluating-llms-harness:d9cd486dd94740c9e0400258759a8f54
 excalidraw:1679ad1d31a591fa3cb636d9150adcc7
 find-nearby:735747ccee489f77aae9f8212ed6ab75
 findmy:bd50940d7b0104f6d6bf8981fc54b827
-fine-tuning-with-trl:51db2b30e3b9394a932a5ccc3430a4a1
-gguf-quantization:5133185768fa3dd303ae7bd79f99bad0
+fine-tuning-with-trl:b2f0948b0f6e7202a452d9569bbd8f64
 gif-search:fe5b39e269439d0af2705d7462dc844d
 github-auth:909ef9bbff492b214a625179f704c09a
 github-code-review:e56793f8efef112bbcdad96f69b45ddd
@@ -27,8 +26,6 @@ github-pr-workflow:cab1d57b84e253dddff37bd212f469ca
 github-repo-management:7d7131b113d4dc2509a47501a6638e76
 godmode:c592b460bf06e1f31b51bc6ac299e111
 google-workspace:84ff6ddcfc6eba156e4f617b8e760c26
-grpo-rl-training:3465d05607abbb04d266c56c58cc5a1d
-guidance:91a9c28434674575077a9a8fc222f559
 heartmula:ce53b2e6c9d68238cae5ae727738ecde
 hermes-agent:7c22aabcddfcc7007550456d034cdf5b
 himalaya:1c94b92d224366ab22b10c01d835178f
@@ -37,8 +34,8 @@ ideation:ed7f67fb2da05b2d85fd798c4b5dd913
 imessage:f545da0f5cc64dd9ee1ffd2b7733a11b
 jupyter-live-kernel:6bda9690d8c71095ac738bd9825e32f2
 linear:a0273574b97ca56dd74f2a398b0fc9c3
-llama-cpp:ea44fc1c259f0d570c8c9dfcaba5b3e5
-llm-wiki:f901eecc4f5bec39ca787d173e311c60
+llama-cpp:71fea10a3d3f68fbeafb6d983c7058e8
+llm-wiki:d479a64448770d8b25bbbdfe19ac3905
 manim-video:86ba8c24fdd57771d68bea812d3b2466
 mcporter:a1736a8c1837ea3a9b157b759af675d7
 minecraft-modpack-server:3cc682f8aef5f86d3580601ba28f9ba3

@@ -58,6 +58,10 @@ agent:
       \ you today! Every question is AMAZING and we're gonna CRUSH IT together! This\
       \ is gonna be LEGENDARY! ARE YOU READY?! LET'S DO THIS! \U0001F4AA\U0001F624\
       \U0001F680"
+  system_prompt: Greetings, seeker of wisdom. I am an assistant who contemplates the
+    deeper meaning behind every query. Let us examine not just the 'how' but the 'why'
+    of your questions. Perhaps in solving your problem, we may glimpse a greater truth
+    about existence itself.
 terminal:
   backend: local
   modal_mode: auto
@@ -83,6 +87,7 @@ browser:
   command_timeout: 30
   record_sessions: false
   allow_private_urls: false
+  cdp_url: ''
   camofox:
     managed_persistence: false
 checkpoints:
@@ -160,6 +165,12 @@ auxiliary:
     base_url: ''
     api_key: ''
     timeout: 30
+  title_generation:
+    provider: auto
+    model: ''
+    base_url: ''
+    api_key: ''
+    timeout: 30
 display:
   compact: false
   personality: kawaii
@@ -179,13 +190,13 @@ display:
   tool_progress: all
   background_process_notifications: all
 dashboard:
-  theme: default
+  theme: mono
 privacy:
   redact_pii: false
 tts:
   provider: edge
   edge:
-    voice: en-US-AriaNeural
+    voice: pt-PT-DuarteNeural
   elevenlabs:
     voice_id: pNInz6obpgDQGcFmaJgB
     model_id: eleven_multilingual_v2
@@ -269,7 +280,8 @@ mattermost:
 approvals:
   mode: manual
   timeout: 60
-command_allowlist: []
+command_allowlist:
+- pipe remote content to shell
 quick_commands: {}
 personalities: {}
 security:

@@ -1,0 +1,19 @@
+hugo@beelink:~$ bws login
+Command 'bws' not found, did you mean:
+  command 'aws' from snap aws-cli (1.44.79)
+  command 'bw' from snap bw (2026.3.0)
+  command 'bwa' from deb bwa (0.7.17-7)
+  command 'bps' from deb bpfcc-introspection (0.29.1+ds-1ubuntu2)
+  command 'bw' from deb bundlewrap (4.17.2-1)
+  command 'bls' from deb bacula-sd (9.6.7-7)
+  command 'bfs' from deb bfs (3.0.4-1)
+  command 'sbws' from deb sbws (1.8.1-1)
+  command 'bts' from deb devscripts (2.23.7ubuntu0.2)
+  command 'bus' from deb atm-tools (1:2.5.1-5)
+  command 'bos' from deb openafs-client (1.8.10-2.1ubuntu3.4)
+  command 'aws' from deb awscli (2.14.6-1)
+See 'snap info <snapname>' for additional versions.
+hugo@beelink:~$ bw login
+(node:33404) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+? Email address: 
