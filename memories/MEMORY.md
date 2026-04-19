@@ -12,4 +12,4 @@ Hermes officially uses 'hermes@hugomoreira.eu' for external communications. To s
 §
 The 'workbench' directory (e.g., in ~/office-personal/workbench/) is a low-structure space used for early-stage development of projects or ideas, before requirements and the final solution are clear.
 §
-No ambiente WSL, o Doppler está configurado de forma global no scope do utilizador (/home/hugo) para usar por defeito o projeto 'talos-cluster' e a config 'prd'. Os agentes devem assumir este contexto e usar diretamente 'doppler run' ou 'doppler secrets get <CHAVE>' sem especificar flags de projeto ou iterar sobre outros projetos.
+No ambiente WSL, o Doppler está configurado de forma global para usar 'talos-cluster/prd'. Para outros projetos (ex: Apollo no planapp), os agentes usam 'doppler setup --project <name> --config <env>'.

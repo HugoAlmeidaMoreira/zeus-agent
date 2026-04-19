@@ -19,7 +19,25 @@ As outlined in `01-db-cortex-abstraction.md`, agents do not write static files. 
 
 Human life (Ph.D., Work, Personal Infrastructure) is a single temporal stream composed of different event types (Emails, Git Commits, Calendar Appointments, File Edits).
 
-**Important architectural clarification:** The local `.hermes/state.db` contains the ephemeral raw trajectories (all tool calls, failed commands, reasoning steps). This raw history is a critical asset for reinforcement learning and continuous memory work, not just garbage. To keep the Git repository lightweight, the raw `sessions/` JSON files and `state.db` are excluded from Git (`.gitignore`). Instead, a continuous synchronization mechanism (e.g., `sync_state_to_pg.py`) pushes the contents of `state.db` (sessions and messages) upstream to the `mothership` PostgreSQL database, where the memory agents can consume and process the full trajectory without bloating the configuration repository.
+**Important architectural clarification:** The local `.hermes/state.db` contains the ephemeral raw trajectories (all tool calls, failed commands, reasoning steps). This raw history is a critical asset for reinforcement learning and continuous memory work, not just garbage. To keep the Git repository lightweight, the raw `sessions/` JSON files and `state.db` are excluded from Git (`.gitignore`). Instead, a continuous synchronization mechanism (e.g., `sync_state_to_pg.py` combined with an `inotifywait` Watchtower and a systemd user service) pushes the contents of `state.db` upstream to the `mnemosyne` PostgreSQL database (often under agent-specific schemas like `agent-zeus` or `agent-apollo`).
+
+### The Agent Inbox (Zero MCP)
+Inter-agent communication relies exclusively on PostgreSQL (`contacts-and-relations.agent_inbox`) instead of heavy MCP JSON-RPC discovery protocols. Agents execute an `INSERT` to ask another agent to do something. Daemon processes `LISTEN` for these events to wake up the target agent with dynamically injected context (Contracts) defining exactly what they are allowed to do. No tokens are wasted negotiating capabilities.
+
+To facilitate this, a `contacts-and-relations` schema is used, containing:
+1. `people`: Stores external contacts (`name`, `contact`, `relationship`).
+2. `agents`: Stores internal agents (`agent`, `tailscale`, `email`, `telegram`, `description`). Uses internal handles (e.g., `@zeus`, `@apollo`) or `.local` virtual emails for routing, while only specific agents (e.g., Hermes) have externally routable emails.
+3. `agent_inbox`: The async message queue (`id`, `sender`, `receiver`, `payload`, `status`, `created_at`).
+
+To send a message via CLI, use `~/.hermes/scripts/agent_inbox_send.sh <sender_handle> <receiver_handle> '<json_payload>'`.
+
+### Watchtower Sync mechanism
+For synchronizing the local `state.db` to Postgres, use a watchtower approach:
+1. Use `inotifywait` (`sudo apt-get install -y inotify-tools`) to watch `~/.hermes/state.db`.
+2. Create a bash script (`watchtower.sh`) that waits for `modify,close_write` events, applies a small cooldown (e.g. 5s) to batch changes, and then runs the python sync script (`sync_state_to_pg.py`) passing the correct URL from Doppler. **CRITICAL:** Use `POSTGRES_ADMIN_URL_INTERNAL` and append the database name (`mnemosyne`) to prevent permission errors or writing to the wrong default database. Example: `POSTGRES_URL="$(doppler secrets get POSTGRES_ADMIN_URL_INTERNAL --plain)mnemosyne" "$SYNC_SCRIPT"`.
+3. Wrap it in a systemd user service (`systemctl --user enable --now <agent>-watchtower.service`).
+4. Create a cronjob (`every 1h`) to monitor the service status and log output to ensure the sync pipeline remains healthy. 
+5. **Schema Parity:** When spawning new agents (like Apollo), ensure their `sync_state_to_pg.py` schema (tables like `sessions` and `messages`) matches the primary agent's schema exactly (including tokens, reasoning, costs, and data types like `double precision` vs `timestamp`). Use the generic setup guide at `~/office/knowledge/cortex/agent_cortex_setup.md` to bootstrap them correctly.
 
 ## Database Schema (Atlas HCL Target for `mothership`)
 

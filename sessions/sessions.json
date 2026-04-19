@@ -1,9 +1,9 @@
 {
   "agent:main:telegram:dm:6885683762": {
     "session_key": "agent:main:telegram:dm:6885683762",
-    "session_id": "20260419_115559_5fbe1cef",
-    "created_at": "2026-04-19T11:55:59.863537",
-    "updated_at": "2026-04-19T11:55:59.863537",
+    "session_id": "20260419_154334_bbd723a2",
+    "created_at": "2026-04-19T15:43:34.618953",
+    "updated_at": "2026-04-19T15:43:34.618953",
     "display_name": "Hugo",
     "platform": "telegram",
     "chat_type": "dm",

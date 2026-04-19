@@ -281,9 +281,11 @@ mattermost:
 approvals:
   mode: manual
   timeout: 60
+  cron_mode: deny
 command_allowlist:
-- pipe remote content to shell
 - delete in root path
+- pipe remote content to shell
+- recursive delete
 quick_commands: {}
 personalities: {}
 security:
@@ -298,6 +300,10 @@ security:
     shared_files: []
 cron:
   wrap_response: true
+code_execution:
+  mode: project
+  timeout: 300
+  max_tool_calls: 50
 logging:
   level: INFO
   max_size_mb: 5
@@ -329,9 +335,6 @@ platform_toolsets:
   - hermes-homeassistant
   qqbot:
   - hermes-qqbot
-code_execution:
-  timeout: 300
-  max_tool_calls: 50
 
 # ── Fallback Model ────────────────────────────────────────────────────
 # Automatic provider failover when primary is unavailable.
@@ -348,7 +351,7 @@ code_execution:
 #   minimax      (MINIMAX_API_KEY)     — MiniMax
 #   minimax-cn   (MINIMAX_CN_API_KEY)  — MiniMax (China)
 #
-# For custom OpenAI-compatible endpoints, add base_url and api_key_env.
+# For custom OpenAI-compatible endpoints, add base_url and key_env.
 #
 # fallback_model:
 #   provider: openrouter

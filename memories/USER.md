@@ -15,3 +15,5 @@ Manages domains: hugomoreira.eu (personal/agents) and vectorized.pt (business). 
 O marido do Hugo, Tiago, é médico.
 §
 Prefers draw.io for diagrams instead of Mermaid, because Mermaid is too difficult for him to edit manually.
+§
+O Hugo trabalha no PLANAPP, integrado na Equipa Multidisciplinar de Comunicação e Gestão do Conhecimento (EMCGC).
