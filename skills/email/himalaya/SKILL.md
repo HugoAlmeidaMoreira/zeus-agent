@@ -174,8 +174,15 @@ To: recipient@example.com
 Subject: Test Message
 
 Hello from Himalaya!
+
+-- 
+Hermes Agent
 EOF
 ```
+
+> **⚠️ Pitfalls for Non-interactive Sending:**
+> - **Signatures:** Piping input bypasses the `signature-cmd` configured in `config.toml`. You MUST manually append the signature text to the bottom of your piped body (or use a wrapper script).
+> - **False Failure (IMAP append):** When using `himalaya template send`, you may receive an error like `cannot add IMAP message ... stream error ... unexpected tag in command completion result`. This usually means the email **WAS successfully sent** via SMTP, but Himalaya failed to save a copy to the IMAP `Sent` folder. Do not assume the send failed; verify receipt before retrying.
 
 **Save as Draft (Do not send)** — use `message save` and specify the drafts folder (e.g., `[Gmail]/Drafts` for Gmail):
 
@@ -268,6 +275,18 @@ himalaya envelope list --output json
 himalaya envelope list --output plain
 ```
 
+## Pitfalls & Troubleshooting
+
+- **False Positive on Send (IMAP Append Error):** When using `himalaya template send` or `himalaya message send`, you may encounter this error:
+  ```text
+  Error: 
+     0: cannot add IMAP message
+     1: stream error
+     2: unexpected tag in command completion result
+  ```
+  **Do not assume the email failed to send.** This error typically occurs *after* successful SMTP transmission, when Himalaya attempts to `APPEND` a copy of the message to the IMAP `Sent` folder. Verify the sent status by checking the recipient's inbox. If SMTP succeeds, the email was delivered despite this error.
+- **TOML Table Ordering:** When editing `config.toml` manually, ensure plain key-value pairs (like `folder.sent = "INBOX.Sent"`) are defined *before* any nested tables (like `backend.type = "imap"` or `message.send.backend.type = "smtp"`). Placing plain keys after tables will cause TOML parsing errors.
+
 ## Debugging
 
 Enable debug logging:
@@ -281,6 +300,25 @@ Full trace with backtrace:
 ```bash
 RUST_LOG=trace RUST_BACKTRACE=1 himalaya envelope list
 ```
+
+## Troubleshooting
+
+- **`cannot add IMAP message` (stream error / unexpected tag) during send:** This often happens on cPanel/custom host IMAP servers where the default folder names do not match. The server expects folders prefixed with `INBOX.` (e.g., `INBOX.Sent`). Fix this by explicitly defining folders in your `config.toml` account section:
+  ```toml
+  folder.sent = "INBOX.Sent"
+  folder.drafts = "INBOX.Drafts"
+  folder.trash = "INBOX.Trash"
+  ```
+- **Emails bounced by Gmail (550-5.7.26 Unauthenticated):** If `himalaya template send` succeeds but you receive an "Undelivered Mail Returned to Sender" in your INBOX stating Gmail blocked it, the sender domain is missing SPF or DKIM DNS records.
+
+### Common Errors
+- **`cannot add IMAP message / unexpected tag` on send**: This usually happens because Himalaya tries to save the sent message to a "Sent" folder that doesn't exist or is named differently on the server (very common on cPanel servers). Fix this by explicitly mapping the folders in `config.toml` under your account configuration:
+  ```toml
+  folder.sent = "INBOX.Sent"
+  folder.drafts = "INBOX.Drafts"
+  folder.trash = "INBOX.Trash"
+  ```
+- **`invalid value: map, expected map with a single key`**: TOML formatting error. This happens when mixing table declarations incorrectly (e.g. using `backend.encryption = "tls"` instead of `backend.encryption.type = "tls"`). Avoid using `sed` to edit `config.toml`; rewrite the file or block completely using `cat << EOF` to prevent breaking the strict TOML map validation.
 
 ## Tips
 

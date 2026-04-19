@@ -1,0 +1,13 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	worktree = /home/hugo/office-personal
+[user]
+	email = hermes@local
+	name = Hermes Checkpoint
+[commit]
+	gpgsign = false
+[tag]
+	gpgSign = false

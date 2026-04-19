@@ -13,10 +13,6 @@ gateway_state.json
 models_dev_cache.json
 .skills_prompt_snapshot.json
 
-# Sessões e memória dinâmica
-sessions/
-memories/
-pairing/
 
 # Caches e Mídia
 audio_cache/

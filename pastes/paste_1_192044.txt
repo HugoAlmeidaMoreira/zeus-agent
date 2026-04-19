@@ -1,0 +1,6 @@
+Mail application “KDE Kmail” can automatically detect this email account’s settings.
+
+Choose to set up a new email account in “KDE Kmail”.
+When “KDE Kmail” prompts you for the email address, enter “hermes@hugomoreira.eu”.
+Use your email account password as the password.
+If the auto-configuration fails, please set up the account using the manual settings.

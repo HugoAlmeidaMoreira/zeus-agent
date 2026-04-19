@@ -1,0 +1,8 @@
+connection to server at "postgres.hugomoreira.eu" (2606:4700:3033::6815:55c9), port 5432 failed: Connection timed out (0x0000274C/10060)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "postgres.hugomoreira.eu" (2606:4700:3030::ac43:d1ee), port 5432 failed: Connection timed out (0x0000274C/10060)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "postgres.hugomoreira.eu" (172.67.209.238), port 5432 failed: Connection timed out (0x0000274C/10060)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "postgres.hugomoreira.eu" (104.21.85.201), port 5432 failed: Connection timed out (0x0000274C/10060)
+	Is the server running on that host and accepting TCP/IP connections?

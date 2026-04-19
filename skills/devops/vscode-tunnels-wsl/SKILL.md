@@ -22,7 +22,9 @@ Use this when you need to configure remote access to a WSL instance via VS Code 
    ```
 3. **Download and Extract the Linux CLI (CRITICAL FOR WSL):** Do NOT use the built-in `code` command in WSL, as it will try to tunnel to the Windows host instead of the Linux environment. Download the standalone Linux CLI:
    ```bash
-   curl -sL "https://vscode.download.prss.microsoft.com/dbazure/download/stable/560a9dba96f961efea7b1612916f89e5d5d4d679/vscode_cli_alpine_x64_cli.tar.gz" -o vscode_cli.tar.gz && tar -xzf vscode_cli.tar.gz
+   curl -sLI "https://code.visualstudio.com/sha/download?build=stable&os=cli-alpine-x64" | grep -i location
+   # Extract the URL from the 'location' header and download it directly:
+   curl -sL <extracted_url> -o vscode_cli.tar.gz && tar -xzf vscode_cli.tar.gz
    ```
 4. **Initiate the Tunnel using the extracted binary:**
    ```bash
@@ -45,5 +47,5 @@ Use this when you need to configure remote access to a WSL instance via VS Code 
 ## Pitfalls & Troubleshooting
 - **No authentication prompt appears:** You are likely running `code tunnel` inside an existing VS Code integrated terminal. Close it and use a standalone Windows/WSL terminal.
 - **"Already registered" errors:** Run `code tunnel unregister` to clear the old state before attempting to create a new tunnel.
-- **\"tar: This does not look like a tar archive\" or \"Not Found\" or \"gzip: stdin\":** The official Microsoft download links (`https://code.visualstudio.com/sha/download?build=stable&os=cli-linux-x64`) often redirect or fail with `curl`. Always use the direct Azure blob URL provided in step 3.
+- **\"tar: This does not look like a tar archive\" or \"Not Found\" or \"gzip: stdin\":** The official Microsoft download links (`https://code.visualstudio.com/sha/download?build=stable&os=cli-linux-x64`) often redirect or fail with `curl` on certain OS targets. You must fetch the headers (`curl -sLI`), extract the Azure blob URL from the `location:` header, and download that direct link as shown in step 3.
 - **`code-server` not found:** Scripts like `https://aka.ms/install-vscode-server/setup.sh` install different components that require different CLI commands (`code-server tunnel` instead of `./code tunnel`). Stick to extracting the tar.gz manually as shown in step 3 to ensure predictability.

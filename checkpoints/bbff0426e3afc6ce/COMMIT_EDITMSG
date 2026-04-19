@@ -1,0 +1,1 @@
+before terminal: sed -i 's/backend.encryption = "tls"/backend.encryption.type

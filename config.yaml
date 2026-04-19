@@ -282,6 +282,7 @@ approvals:
   timeout: 60
 command_allowlist:
 - pipe remote content to shell
+- delete in root path
 quick_commands: {}
 personalities: {}
 security:
