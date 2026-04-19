@@ -29,3 +29,15 @@ whatsapp/
 .update_check
 hermes-agent/
 cron/
+
+# Temporary Debugging and Caches
+pastes/
+processes.json
+interrupt_debug.log
+images/
+sessions/
+pairing/
+checkpoints/
+memories/
+cache/
+
