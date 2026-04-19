@@ -2,7 +2,7 @@ O utilizador chama-se Hugo. O meu nome e identidade como o seu agente pessoal ma
 §
 Prefere ser tratado por 'tu' (informalmente) em vez de 'você'.
 §
-Prefers a lightweight, organic CLI/WSL workflow for coordinating their AI agent pantheon rather than heavy UI-based orchestration tools. Wants agents to build actual episodic memory and cross-session learning, not just rely on static skills.
+Prefers lightweight, database-centric workflows (like Postgres LISTEN/NOTIFY daemons) over heavy protocols like MCP for agent communication, avoiding context bloat and tool discovery overhead. Wants agents to build episodic memory and cross-session learning. Prefers documenting architectural contracts before coding.
 §
 Tem uma cadela chamada Akira.
 §

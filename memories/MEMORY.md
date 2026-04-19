@@ -2,7 +2,7 @@ Environment: Running inside WSL (Windows Subsystem for Linux). Windows host file
 §
 The GitOps repository for the Theseus Kubernetes cluster (the 'boat') is located at /home/hugo/git/theseus-kubernetes.
 §
-Agent Memory Architecture ('Database Cortex'): 1) Domain-specific agents (Theseus for K8s, Apollo for work) filter noise, sending only high-level insights to the main Event Ledger. 2) Night Cycle: A 'Dreaming Agent' validates timeline events, updates Short-Term Memory, and generates randomized 'stories' (dreams/nightmares) to connect concepts. 3) GitOps Memory: Long-term context (Skills, Soul, Office metadata) is maintained by agents via Git commits and synced across the pantheon via GitHub Actions. 4) Dynamic Ontology: ~/office is a living knowledge graph where .md YAML frontmatter is autonomously updated by memory agents.
+Agent Memory Architecture ('Database Cortex'): Memory consolidation is continuous (only dreaming/stories are nocturnal). Raw session data, failed commands, and trajectories in ~/.hermes/state.db are FUNDAMENTAL for learning/RL, not just noise. They are synced to PostgreSQL via ~/.hermes/scripts/postgres-sync/sync_state_to_pg.py (requires POSTGRES_URL). GitOps memory (Skills, Soul, ~/office) stores the distilled, structured knowledge.
 §
 Novas tarefas e requisitos detalhados (como os derivados de ADRs) devem ser guardados na subpasta `~/office/backlog/requisites/` e não na raiz do backlog.
 §
@@ -11,3 +11,5 @@ O Hugo tem o cliente de email Himalaya configurado com o seu Gmail (hugoalmeidam
 Hermes officially uses 'hermes@hugomoreira.eu' for external communications. To send emails, ALWAYS use the custom wrapper script `~/.hermes/scripts/send_email.sh <to> <subject> <body_file>`. This script automatically handles MML multipart/alternative formatting and injects the official HTML signature. Do not use raw `himalaya template send` for outbound emails as it ignores the `signature-cmd` in non-interactive piped mode.
 §
 The 'workbench' directory (e.g., in ~/office-personal/workbench/) is a low-structure space used for early-stage development of projects or ideas, before requirements and the final solution are clear.
+§
+No ambiente WSL, o Doppler está configurado de forma global no scope do utilizador (/home/hugo) para usar por defeito o projeto 'talos-cluster' e a config 'prd'. Os agentes devem assumir este contexto e usar diretamente 'doppler run' ou 'doppler secrets get <CHAVE>' sem especificar flags de projeto ou iterar sobre outros projetos.

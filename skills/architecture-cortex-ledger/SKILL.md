@@ -19,6 +19,8 @@ As outlined in `01-db-cortex-abstraction.md`, agents do not write static files. 
 
 Human life (Ph.D., Work, Personal Infrastructure) is a single temporal stream composed of different event types (Emails, Git Commits, Calendar Appointments, File Edits).
 
+**Important architectural clarification:** The local `.hermes/state.db` contains the ephemeral raw trajectories (all tool calls, failed commands, reasoning steps). This raw history is a critical asset for reinforcement learning and continuous memory work, not just garbage. To keep the Git repository lightweight, the raw `sessions/` JSON files and `state.db` are excluded from Git (`.gitignore`). Instead, a continuous synchronization mechanism (e.g., `sync_state_to_pg.py`) pushes the contents of `state.db` (sessions and messages) upstream to the `mothership` PostgreSQL database, where the memory agents can consume and process the full trajectory without bloating the configuration repository.
+
 ## Database Schema (Atlas HCL Target for `mothership`)
 
 ### 1. `events` (The Immutable Timeline)

@@ -6,6 +6,7 @@ ascii-art:5b776ddc3e15abda4d6c23014e3b374c
 ascii-video:93697173a0a33f7ecb7c4dc1c27f80e8
 audiocraft-audio-generation:41d06b6ec94d1cdb3d864efe452780fd
 axolotl:710b8e88805a85efc461dcd70c937cae
+baoyu-infographic:d00f808010611c77d3fe00f58d2d7176
 blogwatcher:d0b55ef6acff9ad26f1febace610ca3b
 claude-code:1b94564fef16f64eefe3902c6f376ffb
 clip:2a3807ccf83a39e5b981884e5a34ef5f
@@ -72,5 +73,5 @@ webhook-subscriptions:783bdd39b8a4fe54ef6482bc03846ed4
 weights-and-biases:91fd048a0b693f6d74a4639ea08bbd1d
 whisper:9b61b7c196526aff5d10091e06740e69
 writing-plans:5b72a4318524fd7ffb37fd43e51e3954
-xitter:64e1c2cc22acef46a448832c237178c5
+xurl:8a8ecb0b4e3684b4481524e6ee7b7097
 youtube-content:c448e213097433492d51a063d34eb9ae
