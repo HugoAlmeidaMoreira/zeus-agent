@@ -24,6 +24,32 @@ O nome `theseus` não é um modelo real. É o `--served-model-name` que o vLLM e
 
 ## Configurar Hermes local
 
+### Método recomendado: `custom_providers`
+
+Adiciona o endpoint à lista `custom_providers` no `config.yaml`:
+
+```yaml
+custom_providers:
+- name: vllm
+  base_url: http://100.111.71.31:8000/v1
+  api_key: dummy
+  model: theseus
+```
+
+Depois ativa-o como provider:
+
+```bash
+hermes config set model.provider custom:vllm
+hermes config set model.default theseus
+hermes config set model.context_length 262144
+```
+
+O nome após `custom:` corresponde ao campo `name` da entrada (normalizado: minúsculas, espaços → hífens).
+
+### Método alternativo: singleton no bloco `model`
+
+Se não quiseres usar `custom_providers`, podes configurar diretamente:
+
 ```bash
 hermes config set model.default theseus
 hermes config set model.provider custom
@@ -32,7 +58,7 @@ hermes config set model.api_key dummy
 hermes config set model.context_length 262144
 ```
 
-Ou editar diretamente `~/.hermes/config.yaml`:
+Ou no `config.yaml`:
 
 ```yaml
 model:
@@ -44,6 +70,12 @@ model:
 ```
 
 Depois de alterar: `/reset` na sessão para recarregar.
+
+### Pitfalls
+
+- **Provider string**: quando usas `custom_providers`, o provider não é `custom` mas sim `custom:<nome>` (ex: `custom:vllm`). `hermes config set model.provider custom` sozinho ignora a lista `custom_providers`.
+- **Nome normalizado**: o sufixo do pool key é o `name` em minúsculas com espaços substituídos por hífens. Uma entrada com `name: "VLLM Local"` torna-se `custom:vllm-local`.
+- **OpenCode CLI vs Hermes Agent**: o OpenCode CLI (`opencode`) é uma ferramenta separada. Para adicionar um endpoint local ao OpenCode, usa `opencode auth login http://<url>:8000/v1`. O `custom_providers` descrito acima é apenas para o Hermes Agent.
 
 ## Configurar agent no cluster (ex: Mnemosyne)
 

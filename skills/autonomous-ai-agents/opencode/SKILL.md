@@ -25,6 +25,7 @@ Use [OpenCode](https://opencode.ai) as an autonomous coding worker orchestrated 
 
 - OpenCode installed: `npm i -g opencode-ai@latest` or `brew install anomalyco/tap/opencode`
 - Auth configured: `opencode auth login` or set provider env vars (OPENROUTER_API_KEY, etc.)
+- For custom/local endpoints (e.g. vLLM): `opencode auth login http://host:port/v1`
 - Verify: `opencode auth list` should show at least one provider
 - Git repository for code tasks (recommended)
 - `pty=true` for interactive TUI sessions
