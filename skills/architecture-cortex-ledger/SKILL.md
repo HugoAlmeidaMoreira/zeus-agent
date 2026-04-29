@@ -66,7 +66,7 @@ The structured output of asynchronous agent processing. Replaces `~/office/` fol
 ## The Asynchronous Flow
 
 1.  **Ingestion (The Sensors):**
-    *   `poll_emails.py` checks Himalaya and `INSERT INTO events (source='hermes_email', payload='{...}')`.
+    *   Email ingestion must be Kubernetes-native (e.g., K8s CronJob or Apache Camel K deployed via FluxCD) posting to PostgREST. NEVER use local WSL agent cronjobs or local `poll_emails.py` scripts for continuous infrastructure data ingestion.
     *   A local WSL watcher detects a save on `via4-proxy-config.md` and `INSERT INTO events (source='wsl_inotify', payload='{...}')`.
 2.  **Processing (The Dreaming Agents / Subconscious):**
     *   A continuous WASM worker or background vLLM script polls `SELECT * FROM events WHERE processed = false`.
@@ -83,3 +83,10 @@ The structured output of asynchronous agent processing. Replaces `~/office/` fol
 1.  Translate the `events` and `dossiers` tables into HCL format in the `theseus-kubernetes/sql/` directory.
 2.  Apply the schema using `sync.sh diff` and `sync.sh pull`.
 3.  Modify the `poll_emails.py` ear to write directly to the `mothership` PostgreSQL database instead of printing to stdout.
+
+
+## Agent Interaction & Communication Patterns (Distributed Cortex)
+
+- **Distributed Skills (`ontology.skills`):** Skills and shared knowledge for distributed agents must be stored in the `ontology.skills` table in PostgreSQL. This allows agents running in isolated environments (without access to `~/.hermes/skills/` or `~/office-personal`) to pull their instructions autonomously.
+- **Inter-Agent Messaging (`communications.messages`):** Agent-to-agent communication should be routed through the `communications.messages` table using PostgreSQL `LISTEN/NOTIFY` triggers. This provides a lightweight pub/sub mechanism. Do not dump heavy message payloads or conversational threads into the general `event-ledger`.
+- **Optimized Access (No Raw Python):** To conserve tokens and reduce reasoning overhead, agents should NOT write raw Python/psycopg2 scripts to interact with the Cortex. Instead, interactions should be done via thin CLI wrappers (e.g., `cortex-msg`) or PostgREST API calls (`curl`).

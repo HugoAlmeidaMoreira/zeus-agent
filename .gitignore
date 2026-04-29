@@ -1,43 +1,34 @@
-# Segredos e Credenciais (CRITICO)
-.env
-auth.json
-auth.lock
+# Whitelist: repo de memória do agente
+# Ignora tudo por defeito; só o que é memória/conhecimento do agente é mantido.
 
-# Bancos de dados e estado local
-state.db
-state.db-shm
-state.db-wal
-.hermes_history
-gateway.pid
-gateway_state.json
-models_dev_cache.json
-.skills_prompt_snapshot.json
+# ── Ignorar tudo ──────────────────────────────────────────────────────
+*
 
+# ── Manter ficheiros de config do repo ────────────────────────────────
+!.gitignore
+!README.md
 
-# Caches e Mídia
-audio_cache/
-image_cache/
-logs/
-sandboxes/
+# ── Manter memória do agente ──────────────────────────────────────────
+!state.db
+!config.yaml
+!SOUL.md
+!channel_directory.json
+!.env.schema
 
-# Binários e Instalações Locais
-bin/
-node/
-whatsapp/
+# ── Manter diretorias de memória/conhecimento ─────────────────────────
+!skills/
+!skills/**
+!memories/
+!memories/**
 
-# Outros
-.update_check
-hermes-agent/
-cron/
+# ── Exceções: ignorar ficheiros gerados dentro das pastas permitidas ──
+skills/.bundled_manifest
+skills/.curator_state
+skills/**/.graphify_version
 
-# Temporary Debugging and Caches
-pastes/
-processes.json
-interrupt_debug.log
-images/
-sessions/
-pairing/
-checkpoints/
-memories/
-cache/
-
+# ── Ignorar caches e binários comuns (fallback) ───────────────────────
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.egg-info/
+**/.DS_Store

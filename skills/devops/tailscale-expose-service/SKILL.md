@@ -70,6 +70,10 @@ The cluster runs the Tailscale Operator. By creating a `Service` of `type: LoadB
    ```
    Look at the `EXTERNAL-IP` column. It will contain the Tailnet IP and the MagicDNS name (e.g., `100.x.y.z, namespace-app.tailxxxxx.ts.net`).
 
+## Post-Exposure: Simplify Local Dev
+
+Once a service is reachable via Tailscale, update the application `.env.local` to use the Tailnet DNS name instead of the internal K8s DNS (e.g. `minio.media.svc.cluster.local`). Then remove any port-forward logic from local dev scripts (e.g. `scripts/dev.sh`). This avoids `kubectl port-forward`, `portless`, or manual tunneling entirely.
+
 ## Verification
 
 You can verify the exposure by hitting the Tailnet DNS name from within the cluster (or from the user's Tailscale-connected machine):
@@ -79,4 +83,7 @@ curl -s http://<namespace>-<app>.tailxxxxx.ts.net:<port>
 
 # For a database
 nc -zv <namespace>-<app>.tailxxxxx.ts.net <port>
+
+# For object storage (MinIO/S3)
+curl -s https://<namespace>-<app>.tailxxxxx.ts.net:<port>/minio/health/live
 ```

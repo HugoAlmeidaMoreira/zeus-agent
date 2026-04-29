@@ -1,8 +1,9 @@
 model:
-  default: gemini-3.1-pro-preview
-  provider: copilot
-  context_length: 258000
-  base_url: https://api.githubcopilot.com
+  default: kimi-k2.6
+  provider: opencode-go
+  context_length: 262144
+  base_url: https://opencode.ai/zen/go/v1
+  api_key: dummy
   api_mode: chat_completions
 providers: {}
 fallback_providers: []
@@ -13,10 +14,13 @@ agent:
   max_turns: 90
   gateway_timeout: 1800
   restart_drain_timeout: 60
+  api_max_retries: 3
   service_tier: ''
   tool_use_enforcement: auto
   gateway_timeout_warning: 900
   gateway_notify_interval: 600
+  gateway_auto_continue_freshness: 3600
+  image_input_mode: auto
   verbose: false
   reasoning_effort: medium
   personalities:
@@ -69,6 +73,8 @@ terminal:
   cwd: .
   timeout: 180
   env_passthrough: []
+  shell_init_files: []
+  auto_source_bashrc: true
   docker_image: nikolaik/python-nodejs:python3.11-nodejs20
   docker_forward_env: []
   docker_env: {}
@@ -88,18 +94,32 @@ browser:
   command_timeout: 30
   record_sessions: false
   allow_private_urls: false
+  auto_local_for_private_urls: true
   cdp_url: ''
+  dialog_policy: must_respond
+  dialog_timeout_s: 300
   camofox:
     managed_persistence: false
 checkpoints:
   enabled: true
   max_snapshots: 50
+  auto_prune: false
+  retention_days: 7
+  delete_orphans: true
+  min_interval_hours: 24
 file_read_max_chars: 100000
+tool_output:
+  max_bytes: 50000
+  max_lines: 2000
+  max_line_length: 2000
 compression:
   enabled: true
-  threshold: 0.5
+  threshold: 0.34
   target_ratio: 0.2
   protect_last_n: 20
+  hygiene_hard_message_limit: 400
+prompt_caching:
+  cache_ttl: 5m
 bedrock:
   region: ''
   discovery:
@@ -111,11 +131,6 @@ bedrock:
     guardrail_version: ''
     stream_processing_mode: async
     trace: disabled
-smart_model_routing:
-  enabled: false
-  max_simple_chars: 160
-  max_simple_words: 28
-  cheap_model: {}
 auxiliary:
   vision:
     provider: auto
@@ -123,6 +138,7 @@ auxiliary:
     base_url: ''
     api_key: ''
     timeout: 120
+    extra_body: {}
     download_timeout: 30
   web_extract:
     provider: auto
@@ -130,48 +146,57 @@ auxiliary:
     base_url: ''
     api_key: ''
     timeout: 360
+    extra_body: {}
   compression:
     provider: auto
     model: ''
     base_url: ''
     api_key: ''
     timeout: 120
+    extra_body: {}
   session_search:
     provider: auto
     model: ''
     base_url: ''
     api_key: ''
     timeout: 30
+    extra_body: {}
+    max_concurrency: 3
   skills_hub:
     provider: auto
     model: ''
     base_url: ''
     api_key: ''
     timeout: 30
+    extra_body: {}
   approval:
     provider: auto
     model: ''
     base_url: ''
     api_key: ''
     timeout: 30
+    extra_body: {}
   mcp:
     provider: auto
     model: ''
     base_url: ''
     api_key: ''
     timeout: 30
-  flush_memories:
-    provider: auto
-    model: ''
-    base_url: ''
-    api_key: ''
-    timeout: 30
+    extra_body: {}
   title_generation:
     provider: auto
     model: ''
     base_url: ''
     api_key: ''
     timeout: 30
+    extra_body: {}
+  flush_memories:
+    provider: auto
+    model: ''
+    base_url: ''
+    api_key: ''
+    timeout: 30
+    extra_body: {}
 display:
   compact: false
   personality: kawaii
@@ -180,14 +205,24 @@ display:
   bell_on_complete: false
   show_reasoning: false
   streaming: true
+  final_response_markdown: strip
   inline_diffs: true
   show_cost: false
   skin: default
+  user_message_preview:
+    first_lines: 2
+    last_lines: 2
   interim_assistant_messages: true
   tool_progress_command: false
   tool_progress_overrides: {}
   tool_preview_length: 0
   platforms: {}
+  runtime_footer:
+    enabled: false
+    fields:
+    - model
+    - context_pct
+    - cwd
   tool_progress: all
   background_process_notifications: all
 dashboard:
@@ -231,6 +266,7 @@ voice:
   record_key: ctrl+b
   max_recording_seconds: 120
   auto_tts: false
+  beep_enabled: true
   silence_threshold: 200
   silence_duration: 3.0
 human_delay:
@@ -252,8 +288,14 @@ delegation:
   provider: ''
   base_url: ''
   api_key: ''
+  inherit_mcp_toolsets: true
   max_iterations: 50
+  child_timeout_seconds: 600
   reasoning_effort: ''
+  max_concurrent_children: 3
+  max_spawn_depth: 1
+  orchestrator_enabled: true
+  subagent_auto_approve: false
   default_toolsets:
   - terminal
   - file
@@ -261,7 +303,24 @@ delegation:
 prefill_messages_file: ''
 skills:
   external_dirs: []
+  template_vars: true
+  inline_shell: false
+  inline_shell_timeout: 10
+  guard_agent_created: false
   creation_nudge_interval: 15
+  disabled:
+  - claude-code
+  - codex
+  - find-nearby
+  - jupyter-live-kernel
+  - linear
+  - minecraft-modpack-server
+  - notion
+  - openhue
+  - pokemon-player
+  - varlock-bitwarden
+  - xitter
+  - xurl
 honcho: {}
 timezone: ''
 discord:
@@ -271,8 +330,10 @@ discord:
   auto_thread: true
   reactions: true
   channel_prompts: {}
+  server_actions: ''
 whatsapp: {}
 telegram:
+  reactions: false
   channel_prompts: {}
 slack:
   channel_prompts: {}
@@ -283,12 +344,20 @@ approvals:
   timeout: 60
   cron_mode: deny
 command_allowlist:
+- recursive delete
+- script execution via -e/-c flag
+- shell command via -c/-lc flag
 - delete in root path
 - pipe remote content to shell
-- recursive delete
+- SQL TRUNCATE
+- force kill processes
+- SQL DROP
 quick_commands: {}
+hooks: {}
+hooks_auto_accept: false
 personalities: {}
 security:
+  allow_private_urls: false
   redact_secrets: true
   tirith_enabled: true
   tirith_path: tirith
@@ -300,6 +369,7 @@ security:
     shared_files: []
 cron:
   wrap_response: true
+  max_parallel_jobs: null
 code_execution:
   mode: project
   timeout: 300
@@ -308,9 +378,31 @@ logging:
   level: INFO
   max_size_mb: 5
   backup_count: 3
+model_catalog:
+  enabled: true
+  url: https://hermes-agent.nousresearch.com/docs/api/model-catalog.json
+  ttl_hours: 24
+  providers: {}
 network:
   force_ipv4: false
-_config_version: 18
+sessions:
+  auto_prune: false
+  retention_days: 90
+  vacuum_after_prune: true
+  min_interval_hours: 24
+onboarding:
+  seen:
+    tool_progress_prompt: true
+    busy_input_prompt: true
+updates:
+  pre_update_backup: false
+  backup_keep: 5
+_config_version: 22
+smart_model_routing:
+  enabled: false
+  max_simple_chars: 160
+  max_simple_words: 28
+  cheap_model: {}
 session_reset:
   mode: both
   idle_minutes: 1440
@@ -335,6 +427,18 @@ platform_toolsets:
   - hermes-homeassistant
   qqbot:
   - hermes-qqbot
+plugins:
+  enabled: []
+mcp_servers:
+  context7:
+    url: https://mcp.context7.com/mcp
+    timeout: 120
+    connect_timeout: 60
+custom_providers:
+- name: vllm
+  base_url: http://localhost:8001/v1
+  api_key: dummy
+  model: theseus
 
 # ── Fallback Model ────────────────────────────────────────────────────
 # Automatic provider failover when primary is unavailable.
@@ -356,16 +460,3 @@ platform_toolsets:
 # fallback_model:
 #   provider: openrouter
 #   model: anthropic/claude-sonnet-4
-#
-# ── Smart Model Routing ────────────────────────────────────────────────
-# Optional cheap-vs-strong routing for simple turns.
-# Keeps the primary model for complex work, but can route short/simple
-# messages to a cheaper model across providers.
-#
-# smart_model_routing:
-#   enabled: true
-#   max_simple_chars: 160
-#   max_simple_words: 28
-#   cheap_model:
-#     provider: openrouter
-#     model: google/gemini-2.5-flash

@@ -16,6 +16,8 @@ prerequisites:
 
 Himalaya is a CLI email client that lets you manage emails from the terminal using IMAP, SMTP, Notmuch, or Sendmail backends.
 
+**IMPORTANT CLI SYNTAX:** The `--account` flag MUST come *after* the subcommand (e.g., `himalaya envelope list --account hermes`, NOT `himalaya --account hermes envelope list`). Global flags placed before the subcommand will cause an `unexpected argument` error.
+
 ## References
 
 - `references/configuration.md` (config file setup + IMAP/SMTP authentication)
@@ -93,7 +95,7 @@ himalaya folder list
 List emails in INBOX (default):
 
 ```bash
-himalaya envelope list
+himalaya envelope list --account hermes --output json
 ```
 
 List emails in a specific folder:
@@ -119,13 +121,28 @@ himalaya envelope list from john@example.com subject meeting
 Read email by ID (shows plain text):
 
 ```bash
-himalaya message read 42
+himalaya message read 42 --account hermes
+```
+
+**Avoid Marking as Seen:** Use `--preview` when reading automated/sync scripts if you don't want to flag the message as read on the IMAP server.
+```bash
+himalaya message read 42 --account hermes --preview
+```
+
+**Remove Headers:** Use `--no-headers` to retrieve just the body content.
+```bash
+himalaya message read 42 --account hermes --no-headers
+```
+
+Add or remove flags (e.g., Mark as Seen):
+```bash
+himalaya flag add 42 Seen --account hermes
 ```
 
 Export raw MIME:
 
 ```bash
-himalaya message export 42 --full
+himalaya message export 42 --full --account hermes
 ```
 
 ### Reply to an Email
@@ -184,15 +201,13 @@ EOF
 > - **Signatures:** Piping input bypasses the `signature-cmd` configured in `config.toml`. You MUST manually append the signature text to the bottom of your piped body (or use a wrapper script).
 > - **False Failure (IMAP append):** When using `himalaya template send`, you may receive an error like `cannot add IMAP message ... stream error ... unexpected tag in command completion result`. This usually means the email **WAS successfully sent** via SMTP, but Himalaya failed to save a copy to the IMAP `Sent` folder. Do not assume the send failed; verify receipt before retrying.
 
-**Save as Draft (Do not send)** — use `message save` and specify the drafts folder (e.g., `[Gmail]/Drafts` for Gmail):
+**Save as Draft (Do not send)** — use `template save` and specify the drafts folder (e.g., `[Gmail]/Drafts` for Gmail). Note that the `--account` and `--folder` flags must come *after* `template save` and not before `template`:
 
 ```bash
-# First, verify the drafts folder name: himalaya folder list
-cat << 'EOF' | himalaya message save --folder "[Gmail]/Drafts"
-From: you@example.com
+# First, verify the drafts folder name: himalaya folder list --account personal
+cat << 'EOF' | himalaya template save --account personal --folder "[Gmail]/Drafts"
 To: recipient@example.com
 Subject: Draft Subject
-X-Draft: true
 
 This is a draft message.
 EOF
@@ -249,8 +264,11 @@ himalaya account list
 Use a specific account:
 
 ```bash
-himalaya --account work envelope list
+himalaya folder list --account personal
+himalaya template save --account personal --folder "Drafts"
 ```
+
+Note: The `--account` flag must be placed *after* the specific subcommand (e.g. `himalaya folder list --account personal` or `himalaya template save --account personal --folder "Drafts"`), not immediately after `himalaya`. The CLI throws `unexpected argument '--account' found` if placed incorrectly.
 
 ## Attachments
 

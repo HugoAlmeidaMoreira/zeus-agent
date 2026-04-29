@@ -1,19 +1,17 @@
-O utilizador chama-se Hugo. O meu nome e identidade como o seu agente pessoal mais próximo é Zeus. Ele tem outros agentes no seu 'panteão': Prometheus (Comunicação/Conhecimento), Hermes (Trabalho), Theseus (cluster K8s), e Athena (Família).
+Hugo prefers pt-PT or US English, informal second-person replies, and being addressed as Hugo. He calls his closest agent Zeus.
 §
-Prefere ser tratado por 'tu' (informalmente) em vez de 'você'.
+Husband: Tiago (doctor, tiago.raposo.ramires@gmail.com). A minha irmã chama-se Rita. O meu irmão chama-se Tiago Henrique. Dog: Akira.
 §
-Prefers lightweight, database-centric workflows (like Postgres LISTEN/NOTIFY daemons) over heavy protocols like MCP for agent communication, avoiding context bloat and tool discovery overhead. Wants agents to build episodic memory and cross-session learning. Prefers documenting architectural contracts before coding.
+At PLANAPP (EMCGC), PhD in Public Policy, Sociology/Comm background, transitioning to IT Specialist. Domains: hugomoreira.eu, vectorized.pt. DNS is managed via Cloudflare.
 §
-Tem uma cadela chamada Akira.
+Prefers database-centric workflows (Postgres LISTEN/NOTIFY, PostgREST) over MCP for agent communication. Views agents as 'frontends' that should consume clean REST APIs via HTTP/curl, rather than writing heavy Python/SQL to interact directly with the DB.
 §
-Costuma comunicar por mensagens de voz enquanto passeia a cadela (Akira), apreciando respostas em áudio (TTS) para manter discussões arquitetónicas complexas em andamento longe do teclado.
+Strictly prefers Kubernetes-native CronJobs via GitOps (FluxCD) over local host-based scripts for server-side automation.
 §
-O marido do Hugo chama-se Tiago (email: tiago.raposo.ramires@gmail.com).
+Hugo prefers TTS replies for complex architectural discussions while walking Akira.
 §
-Manages domains: hugomoreira.eu (personal/agents) and vectorized.pt (business). DNS is managed via Cloudflare.
+Prefers drawing manually with Excalidraw/draw.io, but the agent must use Mermaid.
 §
-O marido do Hugo, Tiago, é médico.
+When discussing long-context models, Hugo expects a clear distinction between a minimal smoke-test context and the intended production context; 32k should not be framed as a reasonable target for models built for much larger context windows.
 §
-Prefers draw.io for diagrams instead of Mermaid, because Mermaid is too difficult for him to edit manually.
-§
-O Hugo trabalha no PLANAPP, integrado na Equipa Multidisciplinar de Comunicação e Gestão do Conhecimento (EMCGC).
+Hugo expects online verification for current infrastructure hypotheses and prefers browser/web-backed research over unsupported speculation.
