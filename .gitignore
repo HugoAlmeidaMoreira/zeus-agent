@@ -6,6 +6,7 @@
 
 # ── Manter ficheiros de config do repo ────────────────────────────────
 !.gitignore
+!.gitattributes
 !README.md
 
 # ── Manter memória do agente ──────────────────────────────────────────
