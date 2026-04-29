@@ -24,6 +24,7 @@
 # ── Exceções: ignorar ficheiros gerados dentro das pastas permitidas ──
 skills/.bundled_manifest
 skills/.curator_state
+skills/.usage.json
 skills/**/.graphify_version
 
 # ── Ignorar caches e binários comuns (fallback) ───────────────────────
